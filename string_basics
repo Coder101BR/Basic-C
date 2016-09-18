@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// This program shows a basic use of strings
+
+void shows_strings();
+    // globals strings
+    char i;
+    char basic_string[] = "This is a simple string";
+    char *pointer_string = "A vector is an address of memory like a pointer";
+    char one_by_one_string [4] = {'G','I','T','\0'}; // "\0" null character will not appear on printf
+    char overflow_string [16] = "You can read me. You can't read me";
+    char garbage_string [50] = "The rest of the string is garbage ";
+    char matrix_string[2][21] = {"First element", "Second element"}; // two vectors of twenty character more null character
+
+int main()
+{
+
+    shows_strings();
+
+    return 0;
+}
+
+void shows_strings(){
+    printf("\n1 - %s", basic_string);
+    printf("\n2 - %s", pointer_string);
+    printf("\n3 - %s", one_by_one_string);
+    printf("\n4 - %s", overflow_string);
+    printf("\n5 - %s", garbage_string);
+    printf("\n6 - ");
+    for(i = 0; i <= 1; i++){
+        printf("%s ", matrix_string[i]);
+    }
+}
