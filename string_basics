@@ -3,7 +3,10 @@
 
 // This program shows a basic use of strings
 
-void shows_strings();
+void print_strings();
+void find_null_terminator();
+void character_by_character();
+
     // globals strings
     char i;
     char basic_string[] = "This is a simple string";
@@ -16,12 +19,14 @@ void shows_strings();
 int main()
 {
 
-    shows_strings();
+    print_strings();
+    find_null_terminator();
+    character_by_character();
 
     return 0;
 }
 
-void shows_strings(){
+void print_strings(){
     printf("\n1 - %s", basic_string);
     printf("\n2 - %s", pointer_string);
     printf("\n3 - %s", one_by_one_string);
@@ -31,4 +36,20 @@ void shows_strings(){
     for(i = 0; i <= 1; i++){
         printf("%s ", matrix_string[i]);
     }
+}
+
+void find_null_terminator(){
+    //for(i = 0; i != '\0'; i++){
+    for(i = 0; basic_string[i] != '\0'; i++){
+    }
+    printf("\nNull terminator is at %d position of the string", i);
+}
+
+void character_by_character(){
+    printf("\n");
+    for(i = 0; basic_string[i] != '\0'; i++){
+        printf("%c", basic_string[i]);
+    }
+
+
 }
