@@ -2,7 +2,9 @@
 #include <stdlib.h>
 
 // This program shows a basic use of strings
-
+// read more: https://linux.die.net/man/3/gets
+// http://stackoverflow.com/questions/3302255/c-scanf-vs-gets-vs-fgets
+// http://stackoverflow.com/questions/1252132/difference-between-scanf-and-fgets
 void print_strings();
 void find_null_terminator();
 void character_by_character();
@@ -22,6 +24,23 @@ int main()
     print_strings();
     find_null_terminator();
     character_by_character();
+#if 1
+    char name[20];
+    printf("\n\nName and last name: ");
+   // gets(name); // capture the keyboard
+
+     fgets(name, 19, stdin); // variable, limit - null character, input from the keyboard
+
+    // scanf("%19s", name); // scanf capture everything until find , the character new line \n, tab, space or ENTER.
+    // ex: "Dollynho da Silva", only Dollynho will be save on the variable with scanf
+   // scanf("\n%[^\n]", name);  // if use the scanf with "[^\n]", it will work like the gets.
+    //scanf ("%20[^\n]", name); // the twenty limit the numbers of character by 19
+    fflush(stdin); // clean the keyboard buffer (windows)
+   // __fpurge(stdin); // clean the keyboard buffer (linux)
+
+    printf("\nName: %s ", name);
+    puts(name);
+#endif
 
     return 0;
 }
