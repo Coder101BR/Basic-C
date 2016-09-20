@@ -1,9 +1,10 @@
+// Lista encadeada simples: adiciona e remove itens do inicio e fim da lista
+// código retirado do site cprogressivo 
+//http://www.cprogressivo.net/2013/10/Lista-em-C-como-excluir-elementos-do-inicio-e-do-final.html
+
+
 #include <stdio.h>
 #include <stdlib.h>
-
-// Código da página cprogressivo
-// Apenas inclui nós no inicio e no fim da lista
-//http://www.cprogressivo.net/2013/10/Lista-simplesmente-encadeada-com-cabeca-em-C-Inserindo-nos-no-inicio-e-fim.html
 
 struct Node{
 	int num;
@@ -11,14 +12,17 @@ struct Node{
 };
 typedef struct Node node;
 
+
 void inicia(node *LISTA);
 int menu(void);
 void opcao(node *LISTA, int op);
-node *criaNo();
+
 void insereFim(node *LISTA);
 void insereInicio(node *LISTA);
 void exibe(node *LISTA);
 void libera(node *LISTA);
+node *retiraInicio(node *LISTA);
+node *retiraFim(node *LISTA);
 
 
 int main(void)
@@ -27,7 +31,7 @@ int main(void)
 	if(!LISTA){
 		printf("Sem memoria disponivel!\n");
 		exit(1);
-	}
+	}else{
 	inicia(LISTA);
 	int opt;
 
@@ -38,6 +42,7 @@ int main(void)
 
 	free(LISTA);
 	return 0;
+	}
 }
 
 void inicia(node *LISTA)
@@ -51,10 +56,12 @@ int menu(void)
 
 	printf("Escolha a opcao\n");
 	printf("0. Sair\n");
-	printf("1. Exibir lista\n");
-	printf("2. Adicionar node no inicio\n");
-	printf("3. Adicionar node no final\n");
-	printf("4. Zerar lista\n");
+	printf("1. Zerar lista\n");
+	printf("2. Exibir lista\n");
+	printf("3. Adicionar node no inicio\n");
+	printf("4. Adicionar node no final\n");
+	printf("5. Retirar do inicio\n");
+	printf("6. Retirar do fim\n");
 	printf("Opcao: "); scanf("%d", &opt);
 
 	return opt;
@@ -62,25 +69,37 @@ int menu(void)
 
 void opcao(node *LISTA, int op)
 {
+	node *tmp;
 	switch(op){
 		case 0:
 			libera(LISTA);
 			break;
 
 		case 1:
-			exibe(LISTA);
+			libera(LISTA);
+			inicia(LISTA);
 			break;
 
 		case 2:
-			insereInicio(LISTA);
+			exibe(LISTA);
 			break;
 
 		case 3:
-			insereFim(LISTA);
+			insereInicio(LISTA);
 			break;
 
 		case 4:
-			inicia(LISTA);
+			insereFim(LISTA);
+			break;
+
+		case 5:
+			tmp= retiraInicio(LISTA);
+			printf("Retirado: %3d\n\n", tmp->num);
+			break;
+
+		case 6:
+			tmp= retiraFim(LISTA);
+			printf("Retirado: %3d\n\n", tmp->num);
 			break;
 
 		default:
@@ -96,15 +115,22 @@ int vazia(node *LISTA)
 		return 0;
 }
 
-
-void insereFim(node *LISTA)
+node *aloca()
 {
 	node *novo=(node *) malloc(sizeof(node));
 	if(!novo){
 		printf("Sem memoria disponivel!\n");
 		exit(1);
+	}else{
+		printf("Novo elemento: "); scanf("%d", &novo->num);
+		return novo;
 	}
-	printf("Novo elemento: "); scanf("%d", &novo->num);
+}
+
+
+void insereFim(node *LISTA)
+{
+	node *novo=aloca();
 	novo->prox = NULL;
 
 	if(vazia(LISTA))
@@ -121,13 +147,7 @@ void insereFim(node *LISTA)
 
 void insereInicio(node *LISTA)
 {
-	node *novo=(node *) malloc(sizeof(node));
-	if(!novo){
-		printf("Sem memoria disponivel!\n");
-		exit(1);
-	}
-	printf("Novo elemento: "); scanf("%d", &novo->num);
-
+	node *novo=aloca();
 	node *oldHead = LISTA->prox;
 
 	LISTA->prox = novo;
@@ -151,6 +171,7 @@ void exibe(node *LISTA)
 	printf("\n\n");
 }
 
+
 void libera(node *LISTA)
 {
 	if(!vazia(LISTA)){
@@ -163,5 +184,38 @@ void libera(node *LISTA)
 			free(atual);
 			atual = proxNode;
 		}
+	}
+}
+
+
+node *retiraInicio(node *LISTA)
+{
+	if(LISTA->prox == NULL){
+		printf("Lista ja esta vazia\n");
+		return NULL;
+	}else{
+		node *tmp = LISTA->prox;
+		LISTA->prox = tmp->prox;
+		return tmp;
+	}
+
+}
+
+node *retiraFim(node *LISTA)
+{
+	if(LISTA->prox == NULL){
+		printf("Lista ja vazia\n\n");
+		return NULL;
+	}else{
+		node *ultimo = LISTA->prox,
+			 *penultimo = LISTA;
+
+			 while(ultimo->prox != NULL){
+				 penultimo = ultimo;
+				 ultimo = ultimo->prox;
+			 }
+
+			 penultimo->prox = NULL;
+			 return ultimo;
 	}
 }
